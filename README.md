@@ -21,7 +21,7 @@ Pastikan Anda memiliki **Python 3.10+**.
 1. Klon atau unduh repositori ini.
 2. Instal dependensi:
 ```bash
-pip install -r requirements.txt
+pip install .
 ```
 
 Extract payload dari gambar:
@@ -29,13 +29,13 @@ Extract payload dari gambar:
 - Print ke terminal (kalau payload text/UTF-8):
 
 ```bash
-python dexenc.py extract -i out.png -key "password"
+dexenc extract -i out.png -key "password"
 ```
 
 - Simpan ke file (untuk payload binary):
 
 ```bash
-python dexenc.py extract -i out.png -key "password" --out-payload extracted.bin
+dexenc.py extract -i out.png -key "password" --out-payload extracted.bin
 ```
 
 ### Encrypt/Decrypt Payload Saja (tanpa stego)
@@ -43,13 +43,13 @@ python dexenc.py extract -i out.png -key "password" --out-payload extracted.bin
 Encrypt file payload jadi file terenkripsi:
 
 ```bash
-python dexenc.py encrypt -p payload.bin -o payload.dexenc -key "password"
+dexenc.py encrypt -p payload.bin -o payload.dexenc -key "password"
 ```
 
 Decrypt file terenkripsi jadi payload lagi:
 
 ```bash
-python dexenc.py decrypt -p payload.dexenc --out-payload payload.bin -key "password"
+dexenc.py decrypt -p payload.dexenc --out-payload payload.bin -key "password"
 ```
 
 ### Contoh (Windows & Linux)
@@ -57,11 +57,11 @@ python dexenc.py decrypt -p payload.dexenc --out-payload payload.bin -key "passw
 Windows (PowerShell):
 
 ```powershell
-python -m pip install -r requirements.txt
-python dexenc.py hide -i .\\cover.png -p .\\payload.bin -o .\\out.png -key "passphrase panjang"
-python dexenc.py extract -i .\\out.png -key "passphrase panjang" --out-payload .\\extracted.bin
-python dexenc.py encrypt -p .\\payload.bin -o .\\payload.dexenc -key "passphrase panjang"
-python dexenc.py decrypt -p .\\payload.dexenc --out-payload .\\payload.bin -key "passphrase panjang"
+pip install .
+dexenc hide -i .\\cover.png -p .\\payload.bin -o .\\out.png -key "passphrase panjang"
+dexenc extract -i .\\out.png -key "passphrase panjang" --out-payload .\\extracted.bin
+dexenc encrypt -p .\\payload.bin -o .\\payload.dexenc -key "passphrase panjang"
+dexenc decrypt -p .\\payload.dexenc --out-payload .\\payload.bin -key "passphrase panjang"
 ```
 
 ## Konfigurasi Argumen
