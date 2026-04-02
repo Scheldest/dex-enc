@@ -35,7 +35,7 @@ dexenc extract -i out.png -key "password"
 - Simpan ke file (untuk payload binary):
 
 ```bash
-dexenc.py extract -i out.png -key "password" --out-payload extracted.bin
+dexenc extract -i out.png -key "password" --out-payload extracted.bin
 ```
 
 ### Encrypt/Decrypt Payload Saja (tanpa stego)
@@ -43,13 +43,13 @@ dexenc.py extract -i out.png -key "password" --out-payload extracted.bin
 Encrypt file payload jadi file terenkripsi:
 
 ```bash
-dexenc.py encrypt -p payload.bin -o payload.dexenc -key "password"
+dexenc encrypt -p payload.bin -o payload.dexenc -key "password"
 ```
 
 Decrypt file terenkripsi jadi payload lagi:
 
 ```bash
-dexenc.py decrypt -p payload.dexenc --out-payload payload.bin -key "password"
+dexenc decrypt -p payload.dexenc --out-payload payload.bin -key "password"
 ```
 
 ### Contoh (Windows & Linux)
