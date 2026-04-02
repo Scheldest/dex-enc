@@ -2,7 +2,7 @@
 
 **DEX-ENC** adalah alat baris perintah (CLI) canggih yang menggabungkan enkripsi standar militer **AES-256-GCM** dengan teknik steganografi **Content-Adaptive LSB**. Alat ini memungkinkan Anda menyembunyikan data sensitif di dalam gambar PNG tanpa perubahan visual yang berarti, atau sekadar mengenkripsi file secara mandiri.
 
-## 🛡️ Fitur & Keamanan
+## Fitur & Keamanan
 
 ### 1. Enkripsi (AES-256-GCM)
 - **Authenticated Encryption**: Menggunakan mode GCM untuk memastikan integritas data (data tidak bisa dimodifikasi tanpa merusak enkripsi).
@@ -14,7 +14,7 @@
 - **Keyed Permutation**: Urutan channel warna (R, G, B) yang digunakan untuk menyimpan bit diacak berdasarkan password Anda.
 - **Obfuscated Metadata**: Ukuran data rahasia disamarkan dengan *bitmasking* berbasis hash password.
 
-## 🚀 Instalasi
+## Instalasi
 
 Pastikan Anda memiliki **Python 3.10+**.
 
@@ -64,52 +64,22 @@ python dexenc.py encrypt -p .\\payload.bin -o .\\payload.dexenc -key "passphrase
 python dexenc.py decrypt -p .\\payload.dexenc --out-payload .\\payload.bin -key "passphrase panjang"
 ```
 
-Linux/macOS (bash):
+## Konfigurasi Argumen
 
-```bash
-python3 -m pip install -r requirements.txt
-python3 dexenc.py hide -i ./cover.png -p ./payload.bin -o ./out.png -key "passphrase panjang"
-python3 dexenc.py extract -i ./out.png -key "passphrase panjang" --out-payload ./extracted.bin
-python3 dexenc.py encrypt -p ./payload.bin -o ./payload.dexenc -key "passphrase panjang"
-python3 dexenc.py decrypt -p ./payload.dexenc --out-payload ./payload.bin -key "passphrase panjang"
-```
-
-### Default Folder `input/` dan `output/`
-
-Kalau kamu pakai nama file tanpa path (mis. `payload.bin`), tool akan:
-
-- cari input dari `input/payload.bin`
-- simpan output ke `output/...`
-- untuk mode `extract`/`decrypt`, kalau file tidak ketemu di `input/`, tool juga akan coba cari di `output/`.
-
-Contoh:
-
-```bash
-python dexenc.py hide -i cover.png -p payload.bin -o out.png -key "password"
-```
-
-Itu ekuivalen dengan:
-
-```bash
-python dexenc.py hide -i input/cover.png -p input/payload.bin -o output/out.png -key "password"
-```
+| Argumen | Deskripsi |
+| :--- | :--- |
+| `-i, --input` | File sumber (gambar atau payload). |
+| `-p, --payload` | File rahasia yang ingin disisipkan (hanya untuk `hide`). |
+| `-o, --output` | Nama file hasil. Jika kosong saat extract, akan print ke terminal. |
+| `-key, --password` | Password untuk proses enkripsi/dekripsi. |
+| `--quiet` | Mode senyap (hanya menampilkan pesan error). |
 
 ### Kapasitas Payload (penting)
 
 Metode LSB menyimpan 1 bit per channel RGB (3 bit per pixel).
-
-- Kapasitas bit: `width * height * 3`
-- Versi terbaru menyebar bit payload secara acak (scatter) berbasis password + salt, dan panjang payload di-obfuscate. Ini membuat ekstraksi tanpa password jauh lebih sulit (meski tetap tidak membuat LSB “tidak terdeteksi”).
-- Versi terbaru juga memakai **content-adaptive embedding**: bit disisipkan terutama di area yang lebih “bertekstur/berisik”. Kamu bisa atur ambang tekstur via env `DEXENC_EDGE_THRESHOLD` (0–255). Nilai lebih kecil = kapasitas lebih besar tapi lebih mudah terdeteksi; nilai lebih besar = lebih “stealth” tapi kapasitas turun.
-- Payload yang disimpan adalah **hasil enkripsi**, jadi ukurannya sedikit lebih besar dari file asli.
-
-Perkiraan kapasitas byte maksimum:
-
-```
-max_bytes ≈ (width * height * 3 - 32) / 8
-```
-
-Kalau payload kebesaran, tool akan error: “Payload terlalu besar untuk gambar”.
+- Tool ini menggunakan **content-adaptive embedding**: bit hanya disisipkan di area gambar yang memiliki tekstur/detil tinggi agar tidak kasat mata.
+- Anda bisa mengatur sensitivitas area melalui env variable `DEXENC_EDGE_THRESHOLD` (Default: 24).
+- Gunakan format **PNG** untuk hasil terbaik. Format JPG akan merusak data karena kompresi lossy.
 
 ### Troubleshooting
 
