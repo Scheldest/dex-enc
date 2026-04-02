@@ -1,0 +1,6 @@
+Metadata-Version: 2.4
+Name: dexenc
+Version: 1.0.0
+Requires-Dist: Pillow
+Requires-Dist: pycryptodome
+Dynamic: requires-dist
